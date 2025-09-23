@@ -8,7 +8,7 @@ app = FastAPI(
     description="API para disparo da pipeline e consulta de dados no BigQuery"
 )
 
-# Registra os routers
-app.include_router(health.router, prefix="/v1")
-app.include_router(pipeline.router, prefix="/v1")
-app.include_router(data.router, prefix="/v1")
+# Registrando routers
+app.include_router(health.router, prefix="/api/v1/health", tags=["Health"])
+app.include_router(pipeline.router, prefix="/api/v1/pipeline", tags=["Pipeline"])
+app.include_router(data.router, prefix="/api/v1/data", tags=["Data"])
