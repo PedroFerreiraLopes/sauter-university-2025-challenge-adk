@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import health, pipeline, data
+from routers import health, pipeline, data
 
 # Criação da aplicação FastAPI
 app = FastAPI(
