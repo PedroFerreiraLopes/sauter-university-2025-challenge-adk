@@ -1,6 +1,6 @@
 from google.adk.agents import Agent
-from agente_implementacao import sauter_agent
-from agente_implementacao import bigquery_agent
+from agents.agente_sauter import sauter_agent
+from agents.agente_bigquery import bigquery_agent
 
 
 orchestrator_agent = Agent(

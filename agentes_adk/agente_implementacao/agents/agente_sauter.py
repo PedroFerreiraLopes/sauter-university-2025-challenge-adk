@@ -1,7 +1,9 @@
 from google.adk.agents import Agent
 from google.adk.tools import FunctionTool
 from google.adk.tools import google_search
-from agentes_adk.ferramentas.sauter_busca_tool import perform_google_site_search
+from ferramentas.sauter_busca_tool import perform_google_site_search
+
+
 
 sauter_agent = Agent(
     name="sauter_agent",
