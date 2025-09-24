@@ -1,6 +1,6 @@
 from google.cloud import bigquery
 from tenacity import retry, wait_fixed, stop_after_attempt
-from app.utils.logger import logger
+from utils.logger import logger
 
 @retry(wait=wait_fixed(2), stop=stop_after_attempt(3))
 def fetch_data(limit: int = 100, offset: int = 0, date: str = None):
