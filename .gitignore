@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Virtual environments
+venv/
+env/
+ENV/
+*.env
+*.venv
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Secrets and credentials
+*.pem
+*.key
+*.crt
+*.env
+.env.*
+secrets/
+config.json
+
+# Test and coverage
+.coverage
+htmlcov/
+*.cover
+*.pyc
+
+# Compliance: Do not commit sensitive data, credentials, or proprietary modules
+private_modules/
+compliance_data/
