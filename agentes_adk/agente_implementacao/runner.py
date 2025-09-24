@@ -5,7 +5,6 @@ from typing import Optional
 from uuid import uuid4
 from dotenv import load_dotenv
 
-
 # --- Importações da API ---
 from fastapi import FastAPI
 from pydantic import BaseModel

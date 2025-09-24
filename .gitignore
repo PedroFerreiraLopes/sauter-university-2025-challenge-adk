@@ -53,3 +53,4 @@ htmlcov/
 # Compliance: Do not commit sensitive data, credentials, or proprietary modules
 private_modules/
 compliance_data/
+credencial.json
