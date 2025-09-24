@@ -1,6 +1,6 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from app.pipeline_client import run_pipeline 
-from app.utils.logger import logger
+from pipeline_client import run_pipeline
+from utils.logger import logger
 
 router = APIRouter()
 
