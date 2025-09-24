@@ -1,9 +1,6 @@
 from google.adk.agents import Agent
-from agents.translate_agent import translate_agent
-from agents.math_agent import math_agent
-from agents.time_agent import time_agent
-from agents.search_sauter_agent import sauter_agent
-from agents.bigquery_agent import bigquery_agent
+from agente_implementacao import sauter_agent
+from agente_implementacao import bigquery_agent
 
 
 orchestrator_agent = Agent(
@@ -17,5 +14,5 @@ orchestrator_agent = Agent(
 
         NUNCA tente responder a uma pergunta diretamente. Sua única ação deve ser chamar a ferramenta transfer_to_agent.
     """,
-    sub_agents=[translate_agent, bigquery_agent]
+    sub_agents=[sauter_agent, bigquery_agent]
 )
