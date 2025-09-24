@@ -6,9 +6,7 @@ import asyncio
 PATH_PARA_O_ARQUIVO_JSON = ""
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = PATH_PARA_O_ARQUIVO_JSON
-from orchestrator.main_orchestrator import orchestrator_agent
-
-
+from orquestrador.orquestrador import orchestrator_agent
 
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "True"
 os.environ["GOOGLE_CLOUD_PROJECT"] = "desafio-sauter-adk"
