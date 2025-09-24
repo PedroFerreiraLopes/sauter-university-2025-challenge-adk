@@ -1,4 +1,6 @@
+import os
 from googleapiclient.discovery import build
+
 
 def perform_google_site_search(query: str) -> str:
     """
@@ -7,8 +9,8 @@ def perform_google_site_search(query: str) -> str:
     """
     try:
     
-        API_KEY = "AIzaSyD-yHmpGRFlQerYnv2AzvvdK0trPOzwwdM"
-        SEARCH_ENGINE_ID = "f06b02730eaf24e5a"
+        API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY")
+        SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
 
         print(f"--- 🔎 Realizando busca no Google por: '{query}' em sauter.digital ---")
         
