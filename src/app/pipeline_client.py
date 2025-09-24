@@ -1,4 +1,4 @@
-from app.utils.logger import logger
+from utils.logger import logger
 
 async def run_pipeline() -> dict:
     

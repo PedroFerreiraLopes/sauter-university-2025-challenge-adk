@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Query
-from app.services.bigquery_service import fetch_data
-from app.utils.logger import logger
+from services.bigquery_service import fetch_data
+from utils.logger import logger
 
 router = APIRouter()
 
