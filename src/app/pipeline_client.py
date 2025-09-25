@@ -1,46 +1,52 @@
-from utils.logger import logger
 import sys
-import os
+from pathlib import Path
+# CORREÇÃO: O import agora é absoluto a partir de 'src.app'
+from src.app.utils.logger import logger
 
-pipeline_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'pipeline'))
-if pipeline_path not in sys.path:
-    sys.path.append(pipeline_path)
+# Adiciona o diretório raiz do projeto ao sys.path para que possamos encontrar a pasta 'pipeline'
+project_root = Path(__file__).resolve().parent.parent.parent
+pipeline_path = project_root / 'pipeline'
+if str(pipeline_path) not in sys.path:
+    sys.path.append(str(pipeline_path))
 
-def extract(): logger.error("ERRO CRÍTICO: A função 'extract' da pipeline não pôde ser importada.")
-def transform(): logger.error("ERRO CRÍTICO: A função 'transform' da pipeline não pôde ser importada.")
-def load(): logger.error("ERRO CRÍTICO: A função 'load' da pipeline não pôde ser importada.")
+# Funções de fallback (plano B)
+def _fallback_extract(): logger.error("ERRO CRÍTICO: A função 'extract' da pipeline não pôde ser importada.")
+def _fallback_transform(): logger.error("ERRO CRÍTICO: A função 'transform' da pipeline não pôde ser importada.")
+def _fallback_load(): logger.error("ERRO CRÍTICO: A função 'load' da pipeline não pôde ser importada.")
 
+extract = _fallback_extract
+transform = _fallback_transform
+load = _fallback_load
+
+# Tenta importar as funções reais da pipeline (plano A)
 try:
     from extract import extract
     from transform import transform
     from load import load
-    logger.info("Módulos da pipeline (extract, transform, load) importados com sucesso.")
+    logger.info("Módulos da pipeline importados com sucesso.")
 except ImportError as e:
-    logger.error(f"Não foi possível importar os módulos da pipeline. A usar funções de fallback. Erro: {e}")
+    logger.error(f"Não foi possível importar os módulos da pipeline. Verifique a estrutura. Erro: {e}")
 
-def run_pipeline():
+def run_pipeline() -> dict:
+    """
+    Orquestra a execução completa da pipeline de ETL.
+    """
+    logger.info("INICIANDO PROCESSO COMPLETO DE ETL...")
+
+    logger.info("--- A executar a etapa de EXTRAÇÃO (extract.py) ---")
+    extract()
+    logger.info("--- Etapa de EXTRAÇÃO concluída. ---")
+
+    logger.info("--- A executar a etapa de TRANSFORMAÇÃO (transform.py) ---")
+    transform()
+    logger.info("--- Etapa de TRANSFORMAÇÃO concluída. ---")
+
+    logger.info("--- A executar a etapa de CARREGAMENTO (load.py) ---")
+    load()
+    logger.info("--- Etapa de CARREGAMENTO concluída. ---")
     
-    try:
-        logger.info("INICIANDO PROCESSO COMPLETO DE ETL...")
+    logger.info("PROCESSO COMPLETO DE ETL FINALIZADO COM SUCESSO.")
 
-        # 1. Etapa de Extração
-        logger.info("--- A executar a etapa de EXTRAÇÃO (extract.py) ---")
-        extract()
-        logger.info("--- Etapa de EXTRAÇÃO concluída. ---")
-
-        logger.info("--- A executar a etapa de TRANSFORMAÇÃO (transform.py) ---")
-        transform()
-        logger.info("--- Etapa de TRANSFORMAÇÃO concluída. ---")
-
-        logger.info("--- A executar a etapa de CARREGAMENTO (load.py) ---")
-        load()
-        logger.info("--- Etapa de CARREGAMENTO concluída. ---")
-
-        logger.info("PROCESSO COMPLETO DE ETL FINALIZADO COM SUCESSO.")
-        
-        return {"status": "success", "job_id": "some_unique_id"}
-
-    except Exception as e:
-        logger.error(f"ERRO CRÍTICO DURANTE A EXECUÇÃO DA PIPELINE: {e}")
-    
-        return {"status": "error", "message": str(e)}
+    # Exemplo de retorno
+    job_id = "some_unique_id"
+    return {"status": "success", "job_id": job_id}

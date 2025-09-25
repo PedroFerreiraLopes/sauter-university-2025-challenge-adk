@@ -1,14 +1,15 @@
 from fastapi import APIRouter, HTTPException, Query
-from services.bigquery_service import fetch_data
-from utils.logger import logger
+# CORREÇÃO: O import agora é absoluto, começando a partir de 'src.app'
+from src.app.services.bigquery_service import fetch_data
+from src.app.utils.logger import logger
 
 router = APIRouter()
 
-@router.get("/data", tags=["Dados"])
+@router.get("/", tags=["Dados"])
 async def get_data(
     limit: int = Query(100, ge=1, le=1000, description="Número máximo de registros"),
     offset: int = Query(0, ge=0, description="Número de registros a pular"),
-    date: str = Query(None, description="Filtrar por data no formato YYYY-MM-DD")
+    date: str = Query(None, description="Filtrar por data no formato YYYY-MM-DD"),
 ):
     try:
         logger.info(f"Consulta ao BigQuery (limit={limit}, offset={offset}, date={date})")

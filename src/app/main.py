@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from routers import health, pipeline, data
+# CORREÇÃO: O import agora começa a partir de 'src.app'
+from src.app.routers import health, pipeline, data
 
 # Criação da aplicação FastAPI
 app = FastAPI(
