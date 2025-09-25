@@ -1,0 +1,13 @@
+name: reservatorios-api-dev-trigger
+description: Trigger for development branch builds
+github:
+  owner: PedroFerreiraLopes
+  name: sauter-university-2025-challenge-adk
+  push:
+    branch: ^build$
+filename: cloudbuild-dev.yaml
+includedFiles:
+  - "src/**"
+  - "pipeline/**"
+  - "cloudbuild-dev.yaml"
+  - "Dockerfile"
