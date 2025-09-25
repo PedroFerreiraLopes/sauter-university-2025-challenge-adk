@@ -8,13 +8,13 @@ WORKDIR /app
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-COPY requirements.txt ./
-
-COPY . . pipeline/ ./
+COPY src/app/requirements.txt ./
 
 RUN uv pip install --system --no-cache-dir -r requirements.txt
 
-COPY . ./
+COPY src/app/ ./
+
+COPY pipeline/ ./pipeline/
 
 EXPOSE 8000
 
