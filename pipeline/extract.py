@@ -5,7 +5,7 @@ from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
 
-# Configuração básica do logging para exibir mensagens de informação
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -14,12 +14,10 @@ def get_data_from_ons_api() -> dict:
     
     package_id = "61e92787-9847-4731-8b73-e878eb5bc158"
     url = f"https://dados.ons.org.br/api/3/action/package_show?id={package_id}"
-
-    logger.info(f"Buscando dados da API do ONS para o pacote {package_id}")
-
+    logger.info(f"A buscar dados da API do ONS para o pacote {package_id}")
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Lança um erro para respostas HTTP ruins (4xx ou 5xx)
+        response.raise_for_status()
         data = response.json()
         logger.info(f"Dados do pacote {package_id} obtidos com sucesso.")
         return data
@@ -33,13 +31,8 @@ def extract_parquet_for_each_year(parquet_resources: list) -> dict:
     resources_by_year = defaultdict(list)
 
     for resource in parquet_resources:
-        # Extrai o ano do nome do recurso (ex: 'geracao-usina-ho-2023')
-        try:
-            year = resource['name'].split('-')[-1]
-            if year.isdigit():
-                resources_by_year[year].append(resource)
-        except (IndexError, KeyError):
-            logger.warning(f"Não foi possível extrair o ano do recurso: {resource.get('name', 'N/A')}")
+        year = resource['name'].split('-')[-1]
+        resources_by_year[year].append(resource)
 
     latest_resources_per_year = {}
 
@@ -52,12 +45,10 @@ def extract_parquet_for_each_year(parquet_resources: list) -> dict:
 
             if modified_date_str:
                 try:
-                    # Tenta converter a data de modificação para um objeto datetime
+
                     modified_date = datetime.strptime(modified_date_str, "%Y-%m-%dT%H:%M:%S.%f")
                 except ValueError:
-                    logging.warning(
-                        f"Formato de data inválido para o recurso '{resource.get('name')}', pulando."
-                    )
+                    logging.warning(f"Formato de data inválido para o recurso '{resource.get('name')}', a ignorar.")
                     continue
 
                 if latest_resource is None or modified_date > latest_modified_date:
@@ -66,21 +57,19 @@ def extract_parquet_for_each_year(parquet_resources: list) -> dict:
 
         if latest_resource:
             latest_resources_per_year[year] = latest_resource
-            logger.info(f"Recurso mais recente para {year} selecionado: {latest_resource.get('name')}")
-
+            logging.info(f"Recurso mais recente para {year} selecionado: {latest_resource.get('name')}")
     return latest_resources_per_year
 
 
 def download_file(url: str, file_path: Path) -> None:
     
-    logger.info(f"Iniciando download: {file_path.name}")
+    logger.info(f"A iniciar o download: {file_path.name}")
     try:
-        response = requests.get(url, stream=True) # Usar stream para arquivos grandes
+        response = requests.get(url)
         response.raise_for_status()
         with open(file_path, "wb") as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-        logger.info(f"Download concluído: {file_path.name}")
+            f.write(response.content)
+        logger.info(f"Download concluído com sucesso: {file_path.name}")
     except requests.RequestException as e:
         logger.error(f"Falha no download de {file_path.name}: {e}")
     except Exception as e:
@@ -94,8 +83,7 @@ def download_parquet_files_from_ons(last_resources_by_year: dict) -> None:
 
     for year, resource in last_resources_by_year.items():
         file_url = resource['url']
-        # O nome do arquivo já é descritivo, podemos mantê-lo
-        file_name = f"{resource['name']}.parquet"
+        file_name = resource['name'] + ".parquet"
         file_path = download_dir / file_name
 
         download_file(file_url, file_path)
@@ -103,36 +91,33 @@ def download_parquet_files_from_ons(last_resources_by_year: dict) -> None:
     logger.info("Todos os downloads foram concluídos.")
 
 
+
 def extract():
     
-    logging.info("Iniciando o processo de extração da API do ONS.")
+    logger.info("A iniciar o processo de extração da API do ONS.")
     
     ons_json_data: dict = get_data_from_ons_api()
 
     if not ons_json_data:
-        logging.error("Nenhum dado obtido da API do ONS. Processo encerrado.")
+        logger.error("Nenhum dado obtido da API do ONS. A sair do processo.")
         return
 
-    # Filtra apenas os recursos que estão no formato PARQUET
+
     parquet_resources = [
-        resource for resource in ons_json_data['result']['resources'] if resource['format'].upper() == 'PARQUET'
+        resource for resource in ons_json_data['result']['resources'] if resource['format'] == 'PARQUET'
     ]
 
     if not parquet_resources:
-        logging.warning("Nenhum recurso no formato PARQUET foi encontrado nos dados do ONS.")
+        logging.warning("Nenhum recurso PARQUET encontrado nos dados do ONS.")
         return
 
-    last_resources_by_year = extract_parquet_for_each_year(
-        parquet_resources
-    )
-    
-    if not last_resources_by_year:
-        logging.warning("Nenhum recurso válido por ano foi selecionado para download.")
-        return
-
+    last_resources_by_year = extract_parquet_for_each_year(parquet_resources)
     download_parquet_files_from_ons(last_resources_by_year)
-    logging.info("Processo de extração finalizado com sucesso.")
+    logger.info("Processo de extração finalizado com sucesso.")
 
-# Ponto de entrada para executar o script diretamente
+
+
+
+
 if __name__ == "__main__":
     extract()
