@@ -1,0 +1,14 @@
+name: reservatorios-api-pr-trigger
+description: Trigger for pull request testing
+github:
+  owner: PedroFerreiraLopes
+  name: sauter-university-2025-challenge-adk
+  pullRequest:
+    branch: .*
+    commentControl: COMMENTS_ENABLED
+filename: cloudbuild-dev.yaml
+includedFiles:
+  - "src/**"
+  - "pipeline/**"
+  - "cloudbuild-dev.yaml"
+  - "Dockerfile"
