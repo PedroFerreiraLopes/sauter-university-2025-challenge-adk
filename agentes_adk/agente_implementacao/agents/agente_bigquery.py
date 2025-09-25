@@ -3,7 +3,7 @@ from ferramentas.bigquery_busca_ferramenta import run_bigquery_sql_tool
 
 
 tools_list = [run_bigquery_sql_tool]
-TABLE_ID = "desafio-sauter-adk.ons_api.empresatest"
+TABLE_ID = "desafio-sauter-adk.teste.Classificação_do_Estado_do_Reservatório"
 
 bigquery_agent = Agent(
     name="bigquery_agent",
