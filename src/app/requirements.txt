@@ -56,8 +56,12 @@ idna==3.10
     # via
     #   anyio
     #   requests
+numpy==2.0.2
+    # via pandas
 packaging==25.0
     # via google-cloud-bigquery
+pandas==2.2.3
+    # via pipeline dependencies
 proto-plus==1.26.1
     # via google-api-core
 protobuf==6.32.1
@@ -66,6 +70,8 @@ protobuf==6.32.1
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
+pyarrow==18.0.0
+    # via pandas (for parquet support)
 pyasn1==0.6.1
     # via
     #   pyasn1-modules
@@ -81,12 +87,16 @@ pydantic-core==2.33.2
 pydantic-settings==2.10.1
     # via reservatorios-api (pyproject.toml)
 python-dateutil==2.9.0.post0
-    # via google-cloud-bigquery
+    # via
+    #   google-cloud-bigquery
+    #   pandas
 python-dotenv==1.1.1
     # via
     #   reservatorios-api (pyproject.toml)
     #   pydantic-settings
     #   uvicorn
+pytz==2024.2
+    # via pandas
 pyyaml==6.0.2
     # via uvicorn
 requests==2.32.5
@@ -114,6 +124,8 @@ typing-inspection==0.4.1
     # via
     #   pydantic
     #   pydantic-settings
+tzdata==2024.2
+    # via pandas
 urllib3==2.5.0
     # via requests
 uvicorn==0.37.0
