@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Sauter site smoke tests com retry/backoff para 429 (Vertex) e cooldown.
-Agora grava a RESPOSTA COMPLETA no CSV e inclui perguntas fora do escopo.
-"""
 
 import requests, csv, unicodedata, time
 
