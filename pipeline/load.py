@@ -7,7 +7,7 @@ from transform import transform
 logger = logging.getLogger(__name__)
 
 
-def load_dataframe_to_storage(bucket_name, df, destination_blob_name):
+def load_dataframe_to_storage(df, destination_blob_name):
     """Uploads a file to the bucket."""
     # The ID of your GCS bucket
     # bucket_name = "your-bucket-name"
@@ -17,7 +17,7 @@ def load_dataframe_to_storage(bucket_name, df, destination_blob_name):
     # destination_blob_name = "storage-object-name"
 
     storage_client = storage.Client()
-    bucket = storage_client.bucket(bucket_name)
+    bucket = storage_client.bucket(ons_ear_reservatorio_por_dia)
     blob = bucket.blob(destination_blob_name)
 
     # Optional: set a generation-match precondition to avoid potential race conditions

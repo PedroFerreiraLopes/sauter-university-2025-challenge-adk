@@ -117,6 +117,7 @@ def download_parquet_files_from_ons(last_resources_by_year: dict) -> None:
     logger.info("All downloads finished successfully.")
 
 
+
 def extract():
     """
     Main function to extract, filter, and download the latest PARQUET files
