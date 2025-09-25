@@ -1,4 +1,3 @@
-# Define a versão do provedor Google a ser usada.
 terraform {
   required_providers {
     google = {
@@ -13,6 +12,12 @@ provider "google" {
   project = var.gcp_project_id
   region  = var.gcp_region
   zone    = var.gcp_zone
+  credentials = file("credentials.json")
+}
+
+resource "google_project_service" "compute_api" {
+  project = var.gcp_project_id
+  service = "compute.googleapis.com"
 }
 
 
