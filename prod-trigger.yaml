@@ -1,0 +1,13 @@
+name: reservatorios-api-prod-trigger
+description: Trigger for production deployments
+github:
+  owner: PedroFerreiraLopes
+  name: sauter-university-2025-challenge-adk
+  push:
+    branch: ^main$
+filename: cloudbuild-prod.yaml
+includedFiles:
+  - "src/**"
+  - "pipeline/**"
+  - "cloudbuild-prod.yaml" 
+  - "Dockerfile"
